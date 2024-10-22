@@ -17,17 +17,26 @@ public class User {
     private String fullName;
     private String phone;
     private String address;
+    private String avatar;
+    //role id
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    public User() {
-    }
 
-    public User(long id, String email, String password, String fullName, String phone, String address) {
+    public User(long id, String email, String password, String fullName, String phone, String address, String avatar, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.fullName = fullName;
         this.phone = phone;
         this.address = address;
+        this.avatar = avatar;
+        this.role = role;
+    }
+
+    public User() {
+
     }
 
     @Override
@@ -40,6 +49,14 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public long getId() {
@@ -88,5 +105,12 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

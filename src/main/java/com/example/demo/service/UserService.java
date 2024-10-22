@@ -20,6 +20,12 @@ public class UserService {
         List<User> userList = userRepository.findAll();
         return userList;
     }
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
     public String handleHello(){
         return "Hello World! from service";
     }
