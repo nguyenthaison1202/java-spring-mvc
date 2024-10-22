@@ -1,9 +1,8 @@
 package com.example.demo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Orders {
@@ -12,14 +11,34 @@ public class Orders {
     private long id;
     //userId
     private double totalPrice;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @OneToMany(mappedBy = "orders")
+    private List<Order_Detail> order_details;
 
     public Orders(long id, double totalPrice) {
         this.id = id;
         this.totalPrice = totalPrice;
     }
+    public List<Order_Detail> getOrder_details() {
+        return order_details;
+    }
+
+    public void setOrder_details(List<Order_Detail> order_details) {
+        this.order_details = order_details;
+    }
 
     public Orders() {
 
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {
