@@ -1,9 +1,10 @@
-package com.example.demo.controller;
+package com.example.demo.controller.admin;
 
+import com.example.demo.domain.Role;
 import com.example.demo.domain.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,35 +15,39 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
         this.userRepository = userRepository;
     }
 
-    @RequestMapping("/")
-    public String getHomePage(Model model){
-//        String test = userService.handleHello();
-        List<User> users = userService.getAllUser();
-        model.addAttribute("users", users);
-        return "admin/user/tableUsers";
-    }
+//    @RequestMapping("/")
+//    public String getHomePage(Model model){
+////        String test = userService.handleHello();
+//        List<User> users = userService.getAllUser();
+//        model.addAttribute("users", users);
+//        return "/admin/user/show";
+//    }
     @RequestMapping("/admin/user")
     public String getUserPage(Model model){
 //        String test = userService.handleHello();
         List<User> users = userService.getAllUser();
         model.addAttribute("users", users);
-        return "admin/user/tableUsers";
+        return "/admin/user/show";
     }
     //create user
     @GetMapping(value = "/admin/user/create")
     public String showCreateUserPage(@ModelAttribute("User") User user, Model model){
         model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.findAll());
         return "admin/user/create_user";
     }
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String createUserPage(@ModelAttribute("User") User user, Model model){
         model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.findAll());
         userService.save(user);
         return "redirect:/admin/user";
     }
