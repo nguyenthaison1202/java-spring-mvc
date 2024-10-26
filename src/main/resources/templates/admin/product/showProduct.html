@@ -14,22 +14,8 @@
                     <li class="breadcrumb-item"><a href="/admin/user">DashBoard</a></li>
                     <li class="breadcrumb-item active">Product</li>
                 </ol>
-                <div class="mt-5">
-                    <div class="row">
-                        <div class="col-12 mx-auto">
-                            <div class="d-flex justify-content-between">
-                                <h3>Delete User with id</h3>
-                                <span th:text="${user.getId()}"></span>
-                            </div>
-                            <hr/>
-                            <div class="alert alert-danger">
-                                Are you sure ?
-                            </div>
-                            <form method="post" th:action="@{/admin/user/delete/{id} (id=${user.getId()})}" th:object="${user}">
-                                <button class="btn btn-danger">Confirm</button>
-                            </form>
-                        </div>
-                    </div>
+                <div>
+                    products
                 </div>
             </div>
         </main>
