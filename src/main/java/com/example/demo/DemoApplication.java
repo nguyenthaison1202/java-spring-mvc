@@ -15,23 +15,23 @@ import org.springframework.context.annotation.Bean;
 		exclude = SecurityAutoConfiguration.class
 )
 public class DemoApplication {
-	@Autowired
-	private RoleRepository roleRepository;
+//	@Autowired
+//	private RoleRepository roleRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
-	@Bean
-	public CommandLineRunner insertUser(){
-		return args -> {
-			Role user = new Role();
-			user.setName("USER");
-			user.setDescription("user description");
-			roleRepository.save(user);
-			Role user2 = new Role();
-			user2.setName("ADMIN");
-			user2.setDescription("ADMIN description");
-			roleRepository.save(user2);
-		};
-	}
+//	@Bean
+//	public CommandLineRunner insertUser(){
+//		return args -> {
+//			Role user = new Role();
+//			user.setName("USER");
+//			user.setDescription("user description");
+//			roleRepository.save(user);
+//			Role user2 = new Role();
+//			user2.setName("ADMIN");
+//			user2.setDescription("ADMIN description");
+//			roleRepository.save(user2);
+//		};
+//	}
 
 }

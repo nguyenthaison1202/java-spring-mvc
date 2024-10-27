@@ -7,6 +7,8 @@ import com.example.demo.service.RoleService;
 import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UserService;
 import jakarta.servlet.ServletContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,24 +26,17 @@ import java.util.List;
 @Controller
 public class UserController {
     private final UserService userService;
-    private final UserRepository userRepository;
     private final RoleService roleService;
     private final UploadFileService uploadFileService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UserRepository userRepository, RoleService roleService, UploadFileService uploadFileService) {
+    public UserController(UserService userService, UserRepository userRepository, RoleService roleService, UploadFileService uploadFileService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
-        this.userRepository = userRepository;
         this.uploadFileService = uploadFileService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-//    @RequestMapping("/")
-//    public String getHomePage(Model model){
-////        String test = userService.handleHello();
-//        List<User> users = userService.getAllUser();
-//        model.addAttribute("users", users);
-//        return "/admin/user/show";
-//    }
     @RequestMapping("/admin/user")
     public String getUserPage(Model model){
 //        String test = userService.handleHello();
@@ -63,6 +58,8 @@ public class UserController {
 //        userService.save(user);
         String avatar = uploadFileService.uploadFile(file,"avatar");
         user.setAvatar(avatar);
+        String hashPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashPassword);
         userService.save(user);
         return "redirect:/admin/user";
     }
