@@ -22,7 +22,7 @@ public class UploadFileService {
         String fileName = "";
         try {
             byte[] bytes = file.getBytes();
-            File dir = new File(rootPath + File.separator + "avatar");
+            File dir = new File(rootPath + File.separator + targetFolder);
             if (!dir.exists()) {
                 dir.mkdirs();
             }

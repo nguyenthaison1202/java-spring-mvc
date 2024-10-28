@@ -11,11 +11,52 @@
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Manage Product</h1>
                 <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="/admin/user">DashBoard</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/product">DashBoard</a></li>
                     <li class="breadcrumb-item active">Product</li>
                 </ol>
-                <div>
-                    products
+                <div class="mt-5">
+                    <div class="row">
+                        <div class="col-12 mx-auto">
+                            <div class="d-flex justify-content-between">
+                                <h3>Table Product</h3>
+                                <a href="/admin/product/create" class="btn btn-primary">Create a Product</a>
+                            </div>
+                            <hr/>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Factory</th>
+                                    <th scope="col">Target</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="product:${products}">
+                                    <td th:text="${product.getId()}"></td>
+                                    <td th:text="${product.getName()}"></td>
+                                    <td th:text="${product.getPrice()}"></td>
+                                    <td th:text="${product.getFactory()}"></td>
+                                    <td th:text="${product.getQuantity()}"></td>
+                                    <td th:text="${product.getTarget()}"></td>
+                                    <td>
+                                        <a th:href="@{/admin/product/detail/{id} (id=${product.getId()})}">
+                                            <button class="btn btn-success">View</button>
+                                        </a>
+                                        <a th:href="@{/admin/product/update/{id} (id=${product.getId()})}">
+                                            <button class="btn btn-warning mx-2">Update</button>
+                                        </a>
+                                        <a th:href="@{/admin/product/delete/{id} (id =${product.getId()})}">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>

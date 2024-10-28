@@ -1,6 +1,10 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +18,14 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
+    @NotNull
+    @Email
     private String email;
+    @NotNull
+    @Min(2)
     private String password;
+    @NotNull
+    @Min(2)
     private String fullName;
     private String phone;
     private String address;

@@ -7,10 +7,13 @@ import com.example.demo.service.RoleService;
 import com.example.demo.service.UploadFileService;
 import com.example.demo.service.UserService;
 import jakarta.servlet.ServletContext;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,10 +55,14 @@ public class UserController {
         return "admin/user/create_user";
     }
     @PostMapping(value = "/admin/user/create")
-    public String createUserPage(@ModelAttribute("User") User user, @RequestParam("imageFile") MultipartFile file, Model model){
+    public String createUserPage(@ModelAttribute("User") @Valid User user, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile file){
 //        model.addAttribute("user", user);
 //        model.addAttribute("roles", roleService.findAll());
 //        userService.save(user);
+        List<FieldError> errors = bindingResult.getFieldErrors();
+        for (FieldError error : errors ) {
+            System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
+        }
         String avatar = uploadFileService.uploadFile(file,"avatar");
         user.setAvatar(avatar);
         String hashPassword = this.passwordEncoder.encode(user.getPassword());

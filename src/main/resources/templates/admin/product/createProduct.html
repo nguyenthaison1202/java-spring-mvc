@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout/header :: header">
+</head>
+<body class="sb-nav-fixed">
+<nav th:replace="/admin/layout/nav :: nav"></nav>
+<div id="layoutSidenav">
+    <div th:replace="/admin/layout/sidebar ::sideBar"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Create Product</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="/admin/product">DashBoard</a></li>
+                    <li class="breadcrumb-item active">Create Product</li>
+                </ol>
+                <div class="mt-5">
+                    <div class="row">
+                        <div class="col-md-6 col-12 mx-auto">
+                            <h3>Create a Product</h3>
+                            <hr/>
+                            <form class="row g-3" method="post" th:action="@{/admin/product/create}" th:object="${product}" enctype="multipart/form-data">
+                                <div class="col-md-6">
+                                    <label class="form-label">Name: </label>
+                                    <input type="text" th:field="*{name}" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Price: </label>
+                                    <input type="number" th:field="*{price}" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Short detail: </label>
+                                    <textarea type="text" th:field="*{shortDesc}" class="form-control"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Full Detail: </label>
+                                    <textarea type="text" th:field="*{detailDesc}" class="form-control"></textarea>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Quantity: </label>
+                                    <input type="number" th:field="*{quantity}" class="form-control">
+                                </div>
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label">Factory:</label>
+                                    <select th:field="*{factory}" class="form-select">
+                                        <option th:value="APPLE">APPLE</option>
+                                        <option th:value="ASUS">ASUS</option>
+                                        <option th:value="LENOVO">LENOVO</option>
+                                        <option th:value="ACER">ACER</option>
+                                        <option th:value="DELL">DELL</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-12 col-md-6">
+                                    <label class="form-label">Target:</label>
+                                    <select th:field="*{target}" class="form-select">
+                                        <option th:value="GAMING">Gaming</option>
+                                        <option th:value="SINHVIEN-VANPHONG">Sinh viên - Văn Phòng </option>
+                                        <option th:value="THIET-KE-DO-HOA">Thiết kế đồ họa</option>
+                                        <option th:value="MONG-NHE">Mỏng nhẹ</option>
+                                        <option th:value="DOANH-NHAN">Doanh nhân</option>
+                                    </select>
+                                </div>
+                                <div th:field="*{image}" class="mb-3 col-12 col-md-6">
+                                    <label for="avatarFile" class="form-label">Image:</label>
+                                    <input class="form-control" type="file" id="avatarFile" name="imageFile" accept=".png, .jpg, .jpeg">
+                                </div>
+                                <div class="mb-3 col-12 col-md-6">
+                                    <img style="max-height: 250px; display: none;" alt="avatar preview" id="avatarPreview"/>
+                                </div>
+                                <div class="mb-3 col-12">
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="/admin/layout/footer ::footer"></footer>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(() => {
+        const avatarFile = $("#avatarFile");
+        avatarFile.on('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const imgURL = URL.createObjectURL(file);
+                $("#avatarPreview").attr("src", imgURL).css("display", "block");
+            }
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="/resource/js/scripts.js"></script>
+</body>
+</html>
