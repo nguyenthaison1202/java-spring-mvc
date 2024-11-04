@@ -22,7 +22,7 @@
                             <form method="post" th:action="@{/admin/user/update/{id}(id=${user.id})}" th:object="${user}">
                                 <div class="mb-3">
                                     <label class="form-label">Email: </label>
-                                    <input type="email" th:field="*{email}" class="form-control" disabled="disabled">
+                                    <input type="email" th:field="*{email}" class="form-control" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password: </label>

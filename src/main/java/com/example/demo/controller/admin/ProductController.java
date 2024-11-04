@@ -4,8 +4,11 @@ import com.example.demo.domain.Products;
 import com.example.demo.domain.User;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.UploadFileService;
+import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,12 +29,19 @@ public class ProductController {
         return "admin/product/showProduct";
     }
     @GetMapping("/admin/product/create")
-    public String createProduct(Model model) {
+    public String showCreateProduct(Model model) {
         model.addAttribute("product", new Products());
-        return "/admin/product/createProduct";
+        return "admin/product/createProduct";
     }
     @PostMapping("/admin/product/create")
-    public String createProduct(@ModelAttribute("Product") Products product, @RequestParam("imageFile") MultipartFile file) {
+    public String createProduct(@ModelAttribute("product") @Valid Products product, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile file) {
+        List<FieldError> errors = bindingResult.getFieldErrors();
+        for (FieldError error : errors ) {
+            System.out.println (">>>>>"+error.getField() + " - " + error.getDefaultMessage());
+        }
+        if (bindingResult.hasErrors()) {
+            return "admin/product/createProduct";
+        }
         String img = uploadFileService.uploadFile(file,"products");
         product.setImage(img);
         productService.saveProduct(product);
@@ -41,14 +51,14 @@ public class ProductController {
     //product detail
     @GetMapping(value = "/admin/product/detail/{id}")
     public String showProductDetail(@PathVariable long id, Model model){
-        Products product = productService.findUserById(id);
+        Products product = productService.findProductById(id);
         model.addAttribute("product", product);
         return "admin/product/showProductDetail";
     }
 
     @GetMapping(value = "/admin/product/delete/{id}")
     public String confirmDelete(@PathVariable long id, Model model){
-        Products product = productService.findUserById(id);
+        Products product = productService.findProductById(id);
         model.addAttribute("product", product);
         return "admin/product/deleteProduct";
     }
@@ -59,13 +69,13 @@ public class ProductController {
     }
     @GetMapping("/admin/product/update/{id}")
     public String showUpdateProduct(@PathVariable long id, Model model){
-        Products product = productService.findUserById(id);
+        Products product = productService.findProductById(id);
         model.addAttribute("product", product);
         return "admin/product/updateProduct";
     }
     @PostMapping("/admin/product/update/{id}")
     public String updateProduct(@PathVariable long id, Model model,@RequestParam("imageFile") MultipartFile file, @ModelAttribute("Product") Products products){
-        Products current_product = productService.findUserById(id);
+        Products current_product = productService.findProductById(id);
         current_product.setName(products.getName());
         current_product.setPrice(products.getPrice());
         current_product.setFactory(products.getFactory());

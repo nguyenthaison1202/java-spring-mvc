@@ -20,6 +20,9 @@ public class UploadFileService {
     public String uploadFile(MultipartFile file, String targetFolder) {
         String rootPath = "src/main/resources/static/resource/images";
         String fileName = "";
+        if (file.isEmpty()) {
+            return "";
+        }
         try {
             byte[] bytes = file.getBytes();
             File dir = new File(rootPath + File.separator + targetFolder);

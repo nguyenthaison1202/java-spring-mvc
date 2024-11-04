@@ -1,17 +1,27 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Size(min = 3,message = "Please fill name of product")
     private String name;
+    @DecimalMin(value = "0",inclusive = false,message= "Price must have more than 0")
     private double price;
     private String image;
+    @NotNull
+    @NotEmpty(message = "Please fill detail of product")
+    @Column(columnDefinition = "TEXT")
     private String detailDesc;
+    @NotNull
+    @NotEmpty(message = "Please fill short detail of product")
     private String shortDesc;
+
+    @Min(value = 1, message = "Quantity must have more than 1")
     private long quantity;
     private long sold;
     private String factory;
