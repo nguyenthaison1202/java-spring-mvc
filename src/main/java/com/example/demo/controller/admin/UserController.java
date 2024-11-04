@@ -55,13 +55,18 @@ public class UserController {
         return "admin/user/create_user";
     }
     @PostMapping(value = "/admin/user/create")
-    public String createUserPage(@ModelAttribute("User") @Valid User user, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile file){
+    public String createUserPage(@ModelAttribute("User") @Valid User user, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile file, Model model){
 //        model.addAttribute("user", user);
 //        model.addAttribute("roles", roleService.findAll());
 //        userService.save(user);
+        model.addAttribute("roles", roleService.findAll());
+
         List<FieldError> errors = bindingResult.getFieldErrors();
         for (FieldError error : errors ) {
-            System.out.println (error.getObjectName() + " - " + error.getDefaultMessage());
+            System.out.println (">>>>>"+error.getField() + " - " + error.getDefaultMessage());
+        }
+        if (bindingResult.hasErrors()) {
+            return "admin/user/create_user";
         }
         String avatar = uploadFileService.uploadFile(file,"avatar");
         user.setAvatar(avatar);
@@ -85,10 +90,11 @@ public class UserController {
         return "admin/user/update_user";
     }
     @PostMapping("/admin/user/update/{id}")
-    public String updateUser(@PathVariable long id,@ModelAttribute("user")User user, Model model){
+    public String updateUser(@PathVariable long id, @ModelAttribute("user")User user, Model model){
         User current_user = userService.findUserById(id);
         current_user.setFullName(user.getFullName());
-        current_user.setEmail(user.getPassword());
+        current_user.setEmail(user.getEmail());
+        current_user.setPassword(user.getPassword());
         current_user.setPhone(user.getPhone());
         current_user.setAddress(user.getAddress());
         userService.save(current_user);

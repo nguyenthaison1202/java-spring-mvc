@@ -22,11 +22,13 @@
                             <form class="row g-3" method="post" th:action="@{/admin/user/create}" th:object="${User}" enctype="multipart/form-data">
                                 <div class="col-md-6">
                                     <label class="form-label">Email: </label>
-                                    <input type="email" th:field="*{email}" class="form-control">
+                                    <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')}? 'is-invalid'">
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></span>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Password: </label>
-                                    <input type="password" th:field="*{password}" class="form-control">
+                                    <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')}? 'is-invalid'">
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errorclass="error" th:errors="*{password}"></span>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Phone: </label>
@@ -34,7 +36,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Full Name: </label>
-                                    <input type="text" th:field="*{fullName}" class="form-control">
+                                    <input type="text" th:field="*{fullName}" class="form-control" th:classappend="${#fields.hasErrors('fullName')}? 'is-invalid'">
+                                    <span class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}" th:errorclass="error" th:errors="*{fullName}"></span>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Address: </label>
