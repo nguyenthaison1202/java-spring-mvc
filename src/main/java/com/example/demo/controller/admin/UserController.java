@@ -33,7 +33,7 @@ public class UserController {
     private final UploadFileService uploadFileService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UserRepository userRepository, RoleService roleService, UploadFileService uploadFileService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, RoleService roleService, UploadFileService uploadFileService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
         this.uploadFileService = uploadFileService;
@@ -54,17 +54,17 @@ public class UserController {
         model.addAttribute("roles", roleService.findAll());
         return "admin/user/create_user";
     }
-    @PostMapping(value = "/admin/user/create")
+    @PostMapping("/admin/user/create")
     public String createUserPage(@ModelAttribute("User") @Valid User user, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile file, Model model){
 //        model.addAttribute("user", user);
 //        model.addAttribute("roles", roleService.findAll());
 //        userService.save(user);
         model.addAttribute("roles", roleService.findAll());
 
-        List<FieldError> errors = bindingResult.getFieldErrors();
-        for (FieldError error : errors ) {
-            System.out.println (">>>>>"+error.getField() + " - " + error.getDefaultMessage());
-        }
+//        List<FieldError> errors = bindingResult.getFieldErrors();
+//        for (FieldError error : errors ) {
+//            System.out.println (">>>>>"+error.getField() + " - " + error.getDefaultMessage());
+//        }
         if (bindingResult.hasErrors()) {
             return "admin/user/create_user";
         }
