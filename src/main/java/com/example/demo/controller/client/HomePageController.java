@@ -35,10 +35,14 @@ public class HomePageController {
         return "/client/homepage/show";
     }
     @GetMapping("/login")
+    public String showLoginPage(Model model) {
+        return "/client/auth/login";
+    }
+    @PostMapping("/login")
     public String loginPage(Model model) {
         List<Products> products = productService.findAll();
         model.addAttribute("products", products);
-        return "/client/auth/login";
+        return "redirect:/";
     }
     @GetMapping("/register")
     public String registerPage(@ModelAttribute("registerUser")RegisterDTO registerDTO, Model model) {
