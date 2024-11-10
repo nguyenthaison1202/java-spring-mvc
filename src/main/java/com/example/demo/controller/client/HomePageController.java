@@ -65,4 +65,8 @@ public class HomePageController {
         userService.save(user);
         return "redirect:/login";
     }
+    @GetMapping("/access-deny")
+    public String showDenyPage() {
+        return "client/auth/deny";
+    }
 }
