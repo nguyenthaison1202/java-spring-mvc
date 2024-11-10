@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import com.example.demo.service.validator.StrongPassword;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class User {
     private String email;
     @NotNull
     @Size(min = 2, message = "Password must have more than 2 characters")
+    @StrongPassword(message = "Password must have 8 characters")
     private String password;
     @NotNull
     @Size(min = 3, message = "Full Name must have more than 3 characters")
